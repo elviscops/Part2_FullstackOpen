@@ -6,6 +6,8 @@ const getSumOfExercises = (props) => {
     return sum
 }
 
+
+
 const Header = (props) => {
     return <h1>{props.course}</h1>
   }
@@ -36,15 +38,21 @@ const Header = (props) => {
 const Course = (props) => {
     return ( 
     <div>
-        <Header course={props.course.name} />
-        <Content part={props.course.parts} />
+        {props.course.map((item) => {
+            const getSum = item.parts.reduce((a,cv) => a+cv.exercises,0);
+            return  <>
+                    <Header key={item.id} course={item.name} />
+                    <Content key={item.id} part={item.parts} />
+                    <Total sumOfExercises={getSum} />
+                    </>
+        })}
     </div>
     )
 }
   
 const App = () => {
-    const course = {
-        id: 1,
+    const course = [{
+        id: 11,
         name: 'Half Stack application development',
         parts: [
             {
@@ -66,15 +74,39 @@ const App = () => {
             name: 'Practice keeping the the console open all the times',
             exercises: 10000,
             id: 4
+            },
+            {
+            name: 'Test',
+            exercises: 99,
+            id: 5
             }
         ]
-    }
+        },
+        {
+        name: 'Node.js',
+        id: 22,
+        parts: [
+          {
+            name: 'Routing',
+            exercises: 3,
+            id: 1
+          },
+          {
+            name: 'Middlewares',
+            exercises: 7,
+            id: 2
+          }
+        ]
+        }
+  ]
+
+   //const getSum = props.parts.reduce((a,cv) => a+cv.exercises,0);
 
 
 return (
       <div>
         <Course course={course}/>
-        <Total sumOfExercises={getSumOfExercises(course)} />
+        {/* <Total sumOfExercises={getSum} /> */}
       </div>
     )
   }
