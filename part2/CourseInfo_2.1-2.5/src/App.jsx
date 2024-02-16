@@ -36,19 +36,25 @@ const Header = (props) => {
   }
 
 const Course = (props) => {
-    return ( 
-    <div>
-        {props.course.map((item) => {
-            const getSum = item.parts.reduce((a,cv) => a+cv.exercises,0);
-            return  <>
-                    <Header key={item.id} course={item.name} />
-                    <Content key={item.id} part={item.parts} />
-                    <Total sumOfExercises={getSum} />
-                    </>
-        })}
-    </div>
+    const fullCourse = props.course;
+
+
+    return (<div>
+              {props.course.map((courseItem,index)=>{
+                  const getSum = courseItem.parts.reduce((a,cv) => a+cv.exercises,0);
+                    return(
+                        <div key={courseItem.id}>
+                            <Header key={courseItem.id} course={courseItem.name} />
+                            <Content key={courseItem.parts.id} part={courseItem.parts} />
+                            <Total sumOfExercises={getSum} />
+                        </div>
+                    )
+              })
+              }
+            </div>
     )
 }
+    
   
 const App = () => {
     const course = [{
