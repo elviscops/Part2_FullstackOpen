@@ -2,8 +2,58 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
+const course = [{
+    id: 11,
+    name: 'Half Stack application development',
+    parts: [
+        {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+        },
+        {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+        },
+        {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+        },
+        {
+        name: 'Practice keeping the the console open all the times',
+        exercises: 10000,
+        id: 4
+        },
+        {
+        name: 'Test',
+        exercises: 99,
+        id: 5
+        }
+    ]
+    },
+    {
+    name: 'Node.js',
+    id: 22,
+    parts: [
+        {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+        },
+        {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+        }
+    ]
+    }
+]
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <App course={course}/>
   </React.StrictMode>,
 )
