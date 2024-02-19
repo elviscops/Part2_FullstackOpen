@@ -15,8 +15,6 @@ const SubmitForm = (props) => {
     )
 }
 
-
-
 const ContactList = (props) => {
     return (
         props.contacts.map((card)=>{
@@ -24,8 +22,6 @@ const ContactList = (props) => {
     })
     )
 }
-
-
 
 
 const App = () => {
@@ -40,12 +36,27 @@ const App = () => {
         const newContactCard = {
             name: newName
         }
-        setPersons(persons.concat(newContactCard))
-        setNewName('')
+        if (findEquals(newContactCard.name, persons)) {
+            alert(newContactCard.name + " already exists")
+        }else {
+            setPersons(persons.concat(newContactCard))
+            setNewName('')
+        }
     }
 
     const handleContactChange = (event) => {
         setNewName(event.target.value);
+    }
+
+    const findEquals = (newOne,allContacts) => {
+        let hasEqual = false
+            allContacts.forEach((card)=>{
+                if (newOne.replace(/\s/g, '').toLowerCase() === card.name.replace(/\s/g, '').toLowerCase()) {
+                    hasEqual = true;
+                    return;
+                }
+        })
+        return hasEqual
     }
 
   return (
