@@ -9,6 +9,9 @@ const SubmitForm = (props) => {
             name: <input value={props.newName} onChange={props.handleContactChange}/>
             </div>
             <div>
+            number: <input value={props.newNumber} onChange={props.handleNumberChange}/>
+            </div>
+            <div>
                 <button type="submit">add</button>
             </div>
       </form>
@@ -18,7 +21,7 @@ const SubmitForm = (props) => {
 const ContactList = (props) => {
     return (
         props.contacts.map((card)=>{
-            return (<div key={card.name} >{card.name}</div>)
+            return (<div key={card.name} >{card.name}: {card.number}</div>)
     })
     )
 }
@@ -26,26 +29,35 @@ const ContactList = (props) => {
 
 const App = () => {
     const [persons, setPersons] = useState([
-        { name: 'Arto Hellas' },
-        { name: 'Elvis Cops' }
+        { name: 'Arto Hellas', number : "22093943" },
+        { name: 'Elvis Cops' , number : "34843685234" }
         ]) 
     const [newName, setNewName] = useState('')
+    const [newNumber, setNewNumber] = useState('')
 
     const addContact = (event) => {
         event.preventDefault()
         const newContactCard = {
-            name: newName
+            name: newName,
+            number: newNumber
         }
         if (findEquals(newContactCard.name, persons)) {
             alert(newContactCard.name + " already exists")
         }else {
             setPersons(persons.concat(newContactCard))
             setNewName('')
+            setNewNumber('')
         }
     }
 
     const handleContactChange = (event) => {
+        event.preventDefault()
         setNewName(event.target.value);
+    }
+
+    const handleNumberChange = (event) => {
+        event.preventDefault()
+        setNewNumber(event.target.value);
     }
 
     const findEquals = (newOne,allContacts) => {
@@ -64,7 +76,12 @@ const App = () => {
         <SectionTitle title={"Phonebook"}/>
         <SubmitForm addContact={addContact} 
                     handleContactChange={handleContactChange}
-                    newName={newName}/>
+                    newName={newName}
+                    handleNumberChange={handleNumberChange}
+                    newNumber={newNumber}
+
+
+                    />
         <SectionTitle title={"Numbers"}/>
         <ContactList contacts={persons}/>
     </div>
