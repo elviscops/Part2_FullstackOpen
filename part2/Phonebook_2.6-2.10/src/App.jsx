@@ -18,6 +18,14 @@ const SubmitForm = (props) => {
     )
 }
 
+const SearchFilter = (props) => {
+    return (
+            <div>
+            Filter by: <input value={props.newString} onChange={props.handleFilterStringChange}/>
+            </div>
+    )
+}
+
 const ContactList = (props) => {
     return (
         props.contacts.map((card)=>{
@@ -30,10 +38,13 @@ const ContactList = (props) => {
 const App = () => {
     const [persons, setPersons] = useState([
         { name: 'Arto Hellas', number : "22093943" },
-        { name: 'Elvis Cops' , number : "34843685234" }
+        { name: 'Elvis Cops' , number : "34843685234" },
+        { name: 'Martins Zakis' , number : "8345348578" }
         ]) 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
+    const [newString, setNewString] = useState('')
+    const [filteredPersons, setNewFilteredPersons] = useState('')
 
     const addContact = (event) => {
         event.preventDefault()
@@ -60,6 +71,23 @@ const App = () => {
         setNewNumber(event.target.value);
     }
 
+    const handleFilterStringChange = (event) => {
+        event.preventDefault()
+        //console.log(event.target.value)
+        setNewString(event.target.value)
+        filterPersons(persons,event.target.value)
+    }
+
+    const filterPersons = (props) => {
+
+        const tmpPersons = props
+
+        tmpPersons.filter(item => {
+            item.forEach()
+
+        })
+    }
+
     const findEquals = (newOne,allContacts) => {
         let hasEqual = false
             allContacts.forEach((card)=>{
@@ -74,13 +102,15 @@ const App = () => {
   return (
     <div>
         <SectionTitle title={"Phonebook"}/>
+        <SearchFilter newString={newString}
+                    handleFilterStringChange={handleFilterStringChange}
+                    />
+        <SectionTitle title={"Add new contact"}/>
         <SubmitForm addContact={addContact} 
                     handleContactChange={handleContactChange}
                     newName={newName}
                     handleNumberChange={handleNumberChange}
                     newNumber={newNumber}
-
-
                     />
         <SectionTitle title={"Numbers"}/>
         <ContactList contacts={persons}/>
