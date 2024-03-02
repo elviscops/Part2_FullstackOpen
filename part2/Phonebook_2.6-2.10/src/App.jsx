@@ -47,12 +47,7 @@ const ContactList = (props) => {
 
 
 const App = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number : "22093943" },
-        { name: 'Elvis Cops' , number : "34843685234" },
-        { name: 'Martins Zakis' , number : "8345348578" },
-        { name: 'Arturs Ozols' , number : "3645654" }
-        ]) 
+    const [persons, setPersons] = useState([]) 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newString, setNewString] = useState('')
@@ -82,8 +77,6 @@ const App = () => {
         event.preventDefault()
         setNewNumber(event.target.value);
     }
-
-
 
     const handleFilterStringChange = (event) => {
         let currString = event.target.value
