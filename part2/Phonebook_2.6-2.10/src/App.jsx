@@ -44,7 +44,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newString, setNewString] = useState('')
-    const [filteredPersons, setNewFilteredPersons] = useState('')
+    const [showAllContacts, setShowAllContacts] = useState(true)
 
     const addContact = (event) => {
         event.preventDefault()
@@ -71,22 +71,42 @@ const App = () => {
         setNewNumber(event.target.value);
     }
 
+    const filteredContacts = showAllContacts ? persons : persons.filter(
+        item => item.name.includes(newString) || newString === "").map(filteredName =>{
+            console.log(filteredName)
+            return <div key={filteredName.name} >{filteredName.name}: {filteredName.number}</div>
+        }
+    )
+
     const handleFilterStringChange = (event) => {
-        event.preventDefault()
+        //event.preventDefault()
+        var filteredList = []
         //console.log(event.target.value)
         setNewString(event.target.value)
-        filterPersons(persons,event.target.value)
+
+
+        // persons.filter(item => item.name.includes(event.target.value) || event.target.value === "").map(filteredName => {
+        //     console.log(filteredName)
+        //     setNewFilteredPersons([...filteredPersons,filteredName])
+        //     //filteredList.append(filteredName)
+        // })
+        // console.log(filteredPersons)
     }
 
-    const filterPersons = (props) => {
+    // const filterPersons = (persons,valueString) => {
+    //     const tmpString = valueString
+    //     const tmpPersons = persons
+    //     var filteredList = []
 
-        const tmpPersons = props
+    //     tmpPersons.filter(item => item.name.includes(tmpString) || tmpString === "").map(filteredName => {
+    //         console.log(filteredName)
+    //         //filteredList.concat(filteredName)
+    //         setNewFilteredPersons([...filteredPersons,filteredName])
+    //         //filteredList.append(filteredName)
+    //     })
+    //     //console.log(filteredList)
 
-        tmpPersons.filter(item => {
-            item.forEach()
-
-        })
-    }
+    // }
 
     const findEquals = (newOne,allContacts) => {
         let hasEqual = false
@@ -113,7 +133,7 @@ const App = () => {
                     newNumber={newNumber}
                     />
         <SectionTitle title={"Numbers"}/>
-        <ContactList contacts={persons}/>
+        <ContactList contacts={persons}/> 
     </div>
   )
 }
