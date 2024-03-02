@@ -27,11 +27,22 @@ const SearchFilter = (props) => {
 }
 
 const ContactList = (props) => {
-    return (
-        props.contacts.map((card)=>{
-            return (<div key={card.name} >{card.name}: {card.number}</div>)
-    })
-    )
+        if (props.showAllContacts) {
+            return (
+                props.contacts.map((card)=>{
+                    return (<div key={card.name} >{card.name}: {card.number}</div>)
+                    }
+                )
+            )
+        } else {
+            return (
+                props.contacts.filter(
+                    item => item.name.toLowerCase().includes(props.newString)).map(filteredName =>{
+                        return <div key={filteredName.name} >{filteredName.name}: {filteredName.number}</div>
+                    }
+                )
+            )
+        }
 }
 
 
@@ -39,7 +50,8 @@ const App = () => {
     const [persons, setPersons] = useState([
         { name: 'Arto Hellas', number : "22093943" },
         { name: 'Elvis Cops' , number : "34843685234" },
-        { name: 'Martins Zakis' , number : "8345348578" }
+        { name: 'Martins Zakis' , number : "8345348578" },
+        { name: 'Arturs Ozols' , number : "3645654" }
         ]) 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -71,42 +83,13 @@ const App = () => {
         setNewNumber(event.target.value);
     }
 
-    const filteredContacts = showAllContacts ? persons : persons.filter(
-        item => item.name.includes(newString) || newString === "").map(filteredName =>{
-            console.log(filteredName)
-            return <div key={filteredName.name} >{filteredName.name}: {filteredName.number}</div>
-        }
-    )
+
 
     const handleFilterStringChange = (event) => {
-        //event.preventDefault()
-        var filteredList = []
-        //console.log(event.target.value)
-        setNewString(event.target.value)
-
-
-        // persons.filter(item => item.name.includes(event.target.value) || event.target.value === "").map(filteredName => {
-        //     console.log(filteredName)
-        //     setNewFilteredPersons([...filteredPersons,filteredName])
-        //     //filteredList.append(filteredName)
-        // })
-        // console.log(filteredPersons)
+        let currString = event.target.value
+        setNewString(currString.toLowerCase())
+        currString === '' ? setShowAllContacts(true) : setShowAllContacts(false)
     }
-
-    // const filterPersons = (persons,valueString) => {
-    //     const tmpString = valueString
-    //     const tmpPersons = persons
-    //     var filteredList = []
-
-    //     tmpPersons.filter(item => item.name.includes(tmpString) || tmpString === "").map(filteredName => {
-    //         console.log(filteredName)
-    //         //filteredList.concat(filteredName)
-    //         setNewFilteredPersons([...filteredPersons,filteredName])
-    //         //filteredList.append(filteredName)
-    //     })
-    //     //console.log(filteredList)
-
-    // }
 
     const findEquals = (newOne,allContacts) => {
         let hasEqual = false
@@ -133,7 +116,7 @@ const App = () => {
                     newNumber={newNumber}
                     />
         <SectionTitle title={"Numbers"}/>
-        <ContactList contacts={persons}/> 
+        <ContactList contacts={persons} showAllContacts={showAllContacts} newString={newString}/> 
     </div>
   )
 }
