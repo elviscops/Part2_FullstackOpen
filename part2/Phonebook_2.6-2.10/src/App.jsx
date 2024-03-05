@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const SectionTitle = (props) => <h2>{props.title}</h2>
 
@@ -52,6 +53,14 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [newString, setNewString] = useState('')
     const [showAllContacts, setShowAllContacts] = useState(true)
+
+    useEffect(()=>{
+        axios.get('http://localhost:3001/persons')
+            .then(response => {
+                const personData = response.data
+                setPersons(personData)
+            })
+    },[])
 
     const addContact = (event) => {
         event.preventDefault()
