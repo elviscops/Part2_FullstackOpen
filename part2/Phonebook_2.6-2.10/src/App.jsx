@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import phoneBookHandler from './persons'
 
 const SectionTitle = (props) => <h2>{props.title}</h2>
 
@@ -55,11 +56,11 @@ const App = () => {
     const [showAllContacts, setShowAllContacts] = useState(true)
 
     useEffect(()=>{
-        axios.get('http://localhost:3001/persons')
+        phoneBookHandler
+            .getAll()
             .then(response => {
-                const personData = response.data
-                setPersons(personData)
-            })
+                setPersons(response)
+        })
     },[])
 
     const addContact = (event) => {
@@ -71,13 +72,14 @@ const App = () => {
         if (findEquals(newContactCard.name, persons)) {
             alert(newContactCard.name + " already exists")
         }else {
-            axios
-                .post('http://localhost:3001/persons',newContactCard)
+            phoneBookHandler
+                .addContact(newContactCard)
                 .then(response => {
-                    setPersons(persons.concat(response.data))
+                    setPersons(persons.concat(response))
                     setNewName('')
                     setNewNumber('')
                 })
+
 
         }
     }
