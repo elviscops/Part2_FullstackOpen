@@ -71,9 +71,14 @@ const App = () => {
         if (findEquals(newContactCard.name, persons)) {
             alert(newContactCard.name + " already exists")
         }else {
-            setPersons(persons.concat(newContactCard))
-            setNewName('')
-            setNewNumber('')
+            axios
+                .post('http://localhost:3001/persons',newContactCard)
+                .then(response => {
+                    setPersons(persons.concat(response.data))
+                    setNewName('')
+                    setNewNumber('')
+                })
+
         }
     }
 
