@@ -20,9 +20,10 @@ const SubmitForm = (props) => {
     )
 }
 
-const DeleteContactBtn = (props) => {
-    return (<button onClick={props.delete}>Delete</button>)
-}
+// const DeleteContactBtn = (props) => {
+//     console.log(props.contactId, " was clicked")
+//     return (<button onClick={props.delete}>Delete</button>)
+// }
 
 const SearchFilter = (props) => {
     return (
@@ -36,15 +37,17 @@ const ContactList = (props) => {
         if (props.showAllContacts) {
             return (
                 props.contacts.map((card)=>{
-                    return (<div key={card.name} >{card.name}: {card.number} <DeleteContactBtn delete={props.deleteContact}/></div>)
-                    }
+                    return (<div key={card.name} >{card.name}: {card.number} <button onClick={()=>props.deleteContact(card.name)}>Delete</button></div>)
+                    }//()=>{deleteContact(card.name)
                 )
             )
         } else {
             return (
                 props.contacts.filter(
                     item => item.name.toLowerCase().includes(props.newString)).map(filteredName =>{
-                        return <div key={filteredName.name} >{filteredName.name}: {filteredName.number} <DeleteContactBtn delete={props.deleteContact}/></div>
+                        return <div key={filteredName.name} >
+                                    {filteredName.name}: {filteredName.number} <button onClick={()=>props.deleteContact(filteredName.name)}>Delete</button>
+                                </div>
                     }
                 )
             )
@@ -85,9 +88,8 @@ const App = () => {
                 })
         }
     }
-    const deleteContact = (event) =>{
-        event.preventDefault()
-        console.log("Delete Contact")
+    const deleteContact = (contact) =>{
+        window.confirm("Do you want to delete '" + contact +"' from your contact list?")
     }
 
     const handleContactChange = (event) => {
@@ -131,7 +133,12 @@ const App = () => {
                     newNumber={newNumber}
                     />
         <SectionTitle title={"Numbers"}/>
-        <ContactList contacts={persons} showAllContacts={showAllContacts} newString={newString} deleteContact={deleteContact}/> 
+        <ContactList   
+                    contacts={persons} 
+                    showAllContacts={showAllContacts} 
+                    newString={newString} 
+                    deleteContact={deleteContact}
+                    /> 
     </div>
   )
 }
