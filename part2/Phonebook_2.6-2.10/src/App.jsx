@@ -20,11 +20,6 @@ const SubmitForm = (props) => {
     )
 }
 
-// const DeleteContactBtn = (props) => {
-//     console.log(props.contactId, " was clicked")
-//     return (<button onClick={props.delete}>Delete</button>)
-// }
-
 const SearchFilter = (props) => {
     return (
             <div>
@@ -37,8 +32,8 @@ const ContactList = (props) => {
         if (props.showAllContacts) {
             return (
                 props.contacts.map((card)=>{
-                    return (<div key={card.name} >{card.name}: {card.number} <button onClick={()=>props.deleteContact(card.name)}>Delete</button></div>)
-                    }//()=>{deleteContact(card.name)
+                    return (<div key={card.name} >{card.name}: {card.number} <button onClick={()=>props.deleteContact(card.id, card.name)}>Delete</button></div>)
+                    }
                 )
             )
         } else {
@@ -46,7 +41,7 @@ const ContactList = (props) => {
                 props.contacts.filter(
                     item => item.name.toLowerCase().includes(props.newString)).map(filteredName =>{
                         return <div key={filteredName.name} >
-                                    {filteredName.name}: {filteredName.number} <button onClick={()=>props.deleteContact(filteredName.name)}>Delete</button>
+                                    {filteredName.name}: {filteredName.number} <button onClick={()=>props.deleteContact(filteredName.id, filteredName.name)}>Delete</button>
                                 </div>
                     }
                 )
@@ -88,8 +83,17 @@ const App = () => {
                 })
         }
     }
-    const deleteContact = (contact) =>{
-        window.confirm("Do you want to delete '" + contact +"' from your contact list?")
+    const deleteContact = (id,contact) =>{
+        if (window.confirm("Do you want to delete '" + contact +"' from your contact list?")){
+            phoneBookHandler.removeContact(id)
+                            .then(() => {
+                                phoneBookHandler
+                                            .getAll()
+                                            .then(response => {
+                                                setPersons(response)
+                                    })
+                            })
+        }
     }
 
     const handleContactChange = (event) => {
