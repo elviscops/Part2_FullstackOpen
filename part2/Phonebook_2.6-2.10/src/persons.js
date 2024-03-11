@@ -12,9 +12,19 @@ const addContact = newContact => {
     return request.then(response => response.data)
 }
 
+const updateNumber = (contact,contactID) => {
+    const userData = {
+        name: contact.name,
+        number: contact.number
+    }
+    const url = baseUrl + "/" + contactID
+    const request = axios.put(url,userData)
+    return request.then(response => response.data)
+}
+
 const removeContact = contact2Delete => {
     const request = axios.delete(baseUrl+"/"+contact2Delete)
     return request.then(response => response.data)
 }
 
-export default {getAll,addContact,removeContact}
+export default {getAll,addContact,removeContact,updateNumber}

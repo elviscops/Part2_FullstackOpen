@@ -71,8 +71,26 @@ const App = () => {
             name: newName,
             number: newNumber
         }
+        let newContactIDFound = ''
         if (findEquals(newContactCard.name, persons)) {
-            alert(newContactCard.name + " already exists")
+            persons.forEach((p) => {
+                if (newContactCard.name.replace(/\s/g, '').toLowerCase() === p.name.replace(/\s/g, '').toLowerCase()){
+                    newContactIDFound = p.id
+                }}
+            )
+            if (window.confirm(newContactCard.name + " already exists. Do you want to update the number?")) {
+                phoneBookHandler
+                        .updateNumber(newContactCard,newContactIDFound)
+                        .then(() =>{
+                            phoneBookHandler
+                                    .getAll()
+                                    .then(response => {
+                                    setPersons(response)
+                                    setNewName('')
+                                    setNewNumber('')
+                                    })
+                        })
+            }
         }else {
             phoneBookHandler
                 .addContact(newContactCard)
