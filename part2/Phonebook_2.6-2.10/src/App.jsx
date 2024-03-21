@@ -112,8 +112,15 @@ const App = () => {
                                     setNewNumber('')
                                     })
                         })
+                        .catch(error => {
+                            setNotificationMessage(`${newContactCard.name} has been already removed from contacts`,false)
+                            setNotificationMood(false)
+                            setTimeout(() => {
+                                setNotificationMessage(null)
+                                }, 5000)
+                        })
             }
-        }else {
+        } else {
             setNotificationMessage(`${newContactCard.name} was added to the contacts`)
             setNotificationMood(true)
             phoneBookHandler
@@ -130,11 +137,11 @@ const App = () => {
     }
     const deleteContact = (id,contact) =>{
         if (window.confirm("Do you want to delete '" + contact +"' from your contact list?")){
-            setNotificationMessage(`${contact} was removed from contacts`,false)
-            setNotificationMood(false)
+            setNotificationMessage(`${contact} was removed from contacts`,true)
+            setNotificationMood(true)
             setTimeout(() => {
                 setNotificationMessage(null)
-                }, 5000)
+                }, 2000)
             phoneBookHandler.removeContact(id)
                             .then(() => {
                                 phoneBookHandler
@@ -143,6 +150,7 @@ const App = () => {
                                                 setPersons(response)
                                     })
                             })
+                            
         }
     }
 
