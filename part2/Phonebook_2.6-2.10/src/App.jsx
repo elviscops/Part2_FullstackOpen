@@ -49,6 +49,16 @@ const ContactList = (props) => {
         }
 }
 
+const Notification = ({message,mood}) => {
+    const notificationClass = mood ? 'notificationPositive' : 'notificationNegative';
+    if (message === null) {
+        return null
+    }
+    return (
+        <div className={notificationClass}>{message}</div>
+    )
+}
+
 
 const App = () => {
     const [persons, setPersons] = useState([]) 
@@ -56,14 +66,21 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [newString, setNewString] = useState('')
     const [showAllContacts, setShowAllContacts] = useState(true)
+    const [notificationMessage, setNotificationMessage] = useState("Initial contacts loaded!")
+    const [notificationMood, setNotificationMood] = useState(true)
 
     useEffect(()=>{
         phoneBookHandler
             .getAll()
             .then(response => {
                 setPersons(response)
+                setTimeout(() => {
+                    setNotificationMessage(null,true)
+                  }, 1000)
         })
     },[])
+
+
 
     const addContact = (event) => {
         event.preventDefault()
@@ -79,6 +96,11 @@ const App = () => {
                 }}
             )
             if (window.confirm(newContactCard.name + " already exists. Do you want to update the number?")) {
+                setNotificationMessage(`${newContactCard.name} contacts was updated`,true)
+                setNotificationMood(true)
+                setTimeout(() => {
+                    setNotificationMessage(null)
+                  }, 5000)
                 phoneBookHandler
                         .updateNumber(newContactCard,newContactIDFound)
                         .then(() =>{
@@ -92,6 +114,8 @@ const App = () => {
                         })
             }
         }else {
+            setNotificationMessage(`${newContactCard.name} was added to the contacts`)
+            setNotificationMood(true)
             phoneBookHandler
                 .addContact(newContactCard)
                 .then(response => {
@@ -99,10 +123,18 @@ const App = () => {
                     setNewName('')
                     setNewNumber('')
                 })
+                setTimeout(() => {
+                    setNotificationMessage(null)
+                  }, 5000)
         }
     }
     const deleteContact = (id,contact) =>{
         if (window.confirm("Do you want to delete '" + contact +"' from your contact list?")){
+            setNotificationMessage(`${contact} was removed from contacts`,false)
+            setNotificationMood(false)
+            setTimeout(() => {
+                setNotificationMessage(null)
+                }, 5000)
             phoneBookHandler.removeContact(id)
                             .then(() => {
                                 phoneBookHandler
@@ -144,6 +176,7 @@ const App = () => {
   return (
     <div>
         <SectionTitle title={"Phonebook"}/>
+        <Notification message={notificationMessage} mood={notificationMood}/>
         <SearchFilter newString={newString}
                     handleFilterStringChange={handleFilterStringChange}
                     />
