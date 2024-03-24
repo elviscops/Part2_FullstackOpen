@@ -14,7 +14,7 @@ const SearchField = (props) => {
 
 const SearchResults = (props) => {
     let noOfCountries
-    const FILTER_AMOUNT = 50
+    const FILTER_AMOUNT = 15
 
     if (Object.keys(props.results).length === 0){
         return null
@@ -25,11 +25,13 @@ const SearchResults = (props) => {
                             })
             
         if (noOfCountries < FILTER_AMOUNT){
-            return (props.results.data.filter( (item) => item.name.common.toLowerCase().includes(props.newString))
+            return (
+                props.results.data.filter( (item) => item.name.common.toLowerCase().includes(props.newString))
                         .map((filteredList)=> {
                                 if (noOfCountries>1){
-                                    return <div key={filteredList.name.common}>{filteredList.name.common}</div>  
+                                    return <div key={filteredList.name.common}>{filteredList.name.common} <button onClick={()=>(props.showCountry(filteredList.name.common))}>show</button></div>  
                                 } else {
+                          
                                     return (<div key={filteredList.name.common}>
                                         <h1>{filteredList.name.common}</h1>
                                         <p>Capital: {filteredList.capital}
@@ -47,13 +49,12 @@ const SearchResults = (props) => {
                                     </div>  
                                     )
                                 }
-                                
                         }
                         )
-            )
-        } else {
+            ) 
+        } else if (noOfCountries > FILTER_AMOUNT) {
             return (<div>Too Much Data</div>)
-        }
+         } 
     }
 }
 
@@ -65,7 +66,6 @@ function App() {
     useEffect(() => {
         if (country){
             axios
-                //.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${countries}`)
                 .get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
                 .then(response => {
                     setCountryList(response)          
@@ -83,11 +83,23 @@ function App() {
         }
     }    
 
+    const showCountry = (country) =>{
+        setNewString(country.toLowerCase())
+        setNewCountry(country.toLowerCase())
+    }
+
+
     return (
         <div>
             <SearchField newString={newString}
                          handleFilterStringChange={handleFilterStringChange}/>
-            <SearchResults results={countryList} newString={country} />
+                         
+            <SearchResults results={countryList} 
+                         newString={country} 
+                         showCountry={showCountry}
+          
+            />
+            
         </div>
 
     )
