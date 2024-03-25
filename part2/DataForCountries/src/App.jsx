@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 const api_key = import.meta.env.VITE_OPEN_WEATHER_API_KEY
