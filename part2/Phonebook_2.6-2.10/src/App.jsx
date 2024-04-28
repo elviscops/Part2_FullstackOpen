@@ -126,7 +126,8 @@ const App = () => {
             phoneBookHandler
                 .addContact(newContactCard)
                 .then(response => {
-                    setPersons(persons.concat(response))
+                    //setPersons(persons.concat(response))
+                    setPersons(response)
                     setNewName('')
                     setNewNumber('')
                 })
