@@ -29,6 +29,7 @@ const SearchFilter = (props) => {
 }
 
 const ContactList = (props) => {
+
         if (props.showAllContacts) {
             return (
                 props.contacts.map((card)=>{
@@ -126,8 +127,8 @@ const App = () => {
             phoneBookHandler
                 .addContact(newContactCard)
                 .then(response => {
-                    //setPersons(persons.concat(response))
-                    setPersons(response)
+                    setPersons(persons.concat(response))
+                    //setPersons(response)
                     setNewName('')
                     setNewNumber('')
                 })
