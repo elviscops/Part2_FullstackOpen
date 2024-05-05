@@ -122,8 +122,7 @@ const App = () => {
                         })
             }
         } else {
-            setNotificationMessage(`${newContactCard.name} was added to the contacts`)
-            setNotificationMood(true)
+            
             phoneBookHandler
                 .addContact(newContactCard)
                 .then(response => {
@@ -131,6 +130,12 @@ const App = () => {
                     //setPersons(response)
                     setNewName('')
                     setNewNumber('')
+                    setNotificationMessage(`${newContactCard.name} was added to the contacts`)
+                    setNotificationMood(true)
+                }).catch( error => {
+                    console.log(error.response.data.error)
+                    setNotificationMessage(error.response.data.error)
+                    setNotificationMood(false)
                 })
                 setTimeout(() => {
                     setNotificationMessage(null)
